@@ -1,13 +1,18 @@
 import { Grid, Typography, Button, Divider } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { keyframes, styled } from '@mui/material/styles';
 
 import beachImage from '../assets/dalleBeach.png';
+import { styleConstants } from '../models/style-constants';
+
+const ComponentGrid = styled(Grid)({
+    // animation: `${floatAnimation} 10s ease-in-out infinite`
+
+});
 
 const WhiteBox = styled(Grid)({
-    backgroundColor: '#fff',
-    padding: '1rem',
-    borderRadius: '8px',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+    backgroundColor: styleConstants.boxBackgroundColor,
+    borderRadius: styleConstants.boxBorderRadius,
+    boxShadow: styleConstants.boxShadow,
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden', // Ensure no overflow by default
@@ -15,7 +20,6 @@ const WhiteBox = styled(Grid)({
 });
 
 const StyledGrid = styled(Grid)({
-    margin: '1rem',
     height: 'auto'
 });
 
@@ -32,17 +36,18 @@ const StyledButton = styled(Button)({
 export default function Home() {
 
     return (
-        <Grid container spacing={2} sx={{ margin: '2rem', height: 'auto' }}>
+        <ComponentGrid container spacing={2}
+        >
             {/* Image */}
-            <StyledGrid item xs={5}>
+            <StyledGrid item xs={6}>
                 <img src={beachImage} alt="Sample" style={{ width: '100%' }} />
             </StyledGrid>
             {/* Separator Line */}
             <Grid item xs={0.4} sx={{ display: 'flex', alignItems: 'center' }}>
-                <Divider orientation="vertical" sx={{ height: '100%', borderColor: 'rgba(0, 0, 0, 0.12)', borderWidth: 1 }} />
+                <Divider orientation="vertical" sx={{ height: '100%', borderColor: styleConstants.dividerColor, borderWidth: styleConstants.dividerWidth }} />
             </Grid>
             {/* White Box */}
-            <WhiteBox item xs={5}>
+            <WhiteBox item xs={5.5}>
                 <Typography variant="h3" gutterBottom>
                     Welcome to Travellin!
                 </Typography>
@@ -66,7 +71,7 @@ export default function Home() {
                 </ScrollableContent>
 
 
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', borderTop: '2px solid rgba(0, 0, 0, 0.12)' }}>
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', borderTop: '1.7px solid rgba(0, 0, 0, 0.12)', borderColor: styleConstants.dividerColor }}>
                     <Divider sx={{ margin: '0.5rem 0' }} />
                     <StyledButton variant="outlined" color="primary">
                         Sign Up
@@ -76,6 +81,6 @@ export default function Home() {
                     </StyledButton>
                 </div>
             </WhiteBox>
-        </Grid>
+        </ComponentGrid>
     );
 };

@@ -12,12 +12,14 @@ function App() {
       <div>
         <Header />
 
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/destinations" Component={Destinations} />
-          <Route path="/search" Component={Search} />
-          <Route path="/about" Component={About} />
-        </Routes>
+        <div style={{ margin: '2rem', height: '100%' }}>
+          <Routes>
+            <Route path="/" Component={Home} />
+            <Route path="/destinations" Component={Destinations} />
+            <Route path="/search" Component={Search} />
+            <Route path="/about" Component={About} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );

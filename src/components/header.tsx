@@ -1,31 +1,26 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Button } from '@mui/material';
+import React from 'react';
+import { AppBar, Toolbar, Button, styled } from '@mui/material';
+
+const StyledToolbar = styled(Toolbar)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Header: React.FC = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
-
-    const handleLoginToggle = () => {
-        setLoggedIn((prevLoggedIn) => !prevLoggedIn);
-    };
-
     return (
         <AppBar position="static">
-            <Toolbar>
-                <Button color="inherit" href="/">Home</Button>
-                <Button color="inherit" href="/destinations">Destinations</Button>
-                <Button color="inherit" href="/search">Search</Button>
-                <Button color="inherit" href="/about">About</Button>
-
-                {/* {loggedIn ? (
-                    <Button color="inherit">Dashboard</Button>
-                ) : (
-                    <Button color="inherit">Login</Button>
-                )} */}
-                {/* <Button color="inherit" onClick={handleLoginToggle}>
-                    {loggedIn ? 'Logout' : 'Login'}
-                </Button> */}
-            </Toolbar>
-       </AppBar>
+            <StyledToolbar>
+                <div>
+                    <Button color="inherit" href="/">Home</Button>
+                    <Button color="inherit" href="/destinations">Destinations</Button>
+                    <Button color="inherit" href="/search">Search</Button>
+                </div>
+                <div>
+                    <Button color="inherit" href="/about">About</Button>
+                    <Button color="inherit" href="/login">Login</Button>
+                </div>
+            </StyledToolbar>
+        </AppBar>
     );
 };
 
