@@ -5,7 +5,6 @@ import beachImage from '../assets/dalleBeach.png';
 import { styleConstants } from '../models/style-constants';
 
 const ComponentGrid = styled(Grid)({
-    // animation: `${floatAnimation} 10s ease-in-out infinite`
 
 });
 
