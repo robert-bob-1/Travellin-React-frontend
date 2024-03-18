@@ -4,18 +4,24 @@ import { AppBar, Toolbar, Button, styled, Box, Typography } from '@mui/material'
 import logo from '../assets/travel.png';
 import { teal } from '@mui/material/colors';
 
+const StyledAppBar = styled(AppBar)({
+    backgroundColor: 'white',
+    boxShadow: 'none',
+});
 
 const StyledToolbar = styled(Toolbar)({
     display: 'flex',
     justifyContent: 'space-between',
     color: 'white',
-    boxShadow: 'none',
+
     marginLeft: '5%',
     marginRight: '5%',
     paddingLeft: '0',
     paddingRight: '0',
     paddingBottom: '1rem',
-    paddingTop: '1rem'
+    paddingTop: '1rem',
+    borderBottom: '2px solid teal'
+
 });
 
 const StyledImage = styled('img')({
@@ -31,7 +37,7 @@ const Title = styled(Typography)({
 
 const Header: React.FC = () => {
     return (
-        <AppBar color='white' position='static'>
+        <StyledAppBar position='static'>
             <StyledToolbar>
                 <Box display="flex" alignItems="center">
                     <StyledImage className='logo-small' src={logo} alt="Travel Icon" />
@@ -47,7 +53,7 @@ const Header: React.FC = () => {
                     <Button href="/login">Login</Button>
                 </div>
             </StyledToolbar>
-        </AppBar>
+        </StyledAppBar>
     );
 };
 
