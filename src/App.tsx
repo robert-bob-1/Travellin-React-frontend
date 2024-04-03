@@ -7,6 +7,9 @@ import Search from './pages/Search';
 import About from './pages/About';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { pink, teal } from '@mui/material/colors';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import AgentPage from './pages/agent/AgentPage';
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -115,9 +118,16 @@ function App() {
           <div style={{ margin: '2rem', height: '100%' }}>
             <Routes>
               <Route path="/" Component={Home} />
+              <Route path="/login" Component={Login} />
+              <Route path="/register" Component={Register} />
               <Route path="/destinations" Component={Destinations} />
               <Route path="/search" Component={Search} />
               <Route path="/about" Component={About} />
+
+              <Route path="/agent" element={<AgentPage />} />
+
+              <Route path="*">"404 Not Found!"</Route>
+
             </Routes>
           </div>
         </div>

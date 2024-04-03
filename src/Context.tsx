@@ -1,18 +1,15 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import { apiGet } from './api/fetch';
 
 interface UserContextValue {
     user: any;
     getUser: () => Promise<void>;
     logout: () => void;
-    globalLoading: boolean;
 }
 
 const UserContext = createContext<UserContextValue | undefined>(undefined);
 
 export const UserContextProvider: React.FC = ({ }) => {
     const [user, setUser] = useState<any>();
-    const [globalLoading, setGlobalLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -26,7 +23,6 @@ export const UserContextProvider: React.FC = ({ }) => {
     };
 
     const getUser = async () => {
-        setGlobalLoading(true);
         const token = localStorage.getItem('token');
         try {
             // const decodedToken = jwt.decode(token);
@@ -38,7 +34,6 @@ export const UserContextProvider: React.FC = ({ }) => {
         } catch (error: any) {
             console.error('JWT validation error:', error.message);
         } finally {
-            setGlobalLoading(false);
         }
     };
 
@@ -46,7 +41,6 @@ export const UserContextProvider: React.FC = ({ }) => {
         user,
         getUser,
         logout,
-        globalLoading,
     };
 
     return (

@@ -7,7 +7,7 @@ export const mockDestinations: Destination[] = [
         description: 'Welcome to Hotel Wow!, where luxury meets tranquility in the heart of Miami, Florida. Nestled amidst the picturesque landscapes and vibrant culture of Transylvania, our hotel offers an unparalleled experience for travelers seeking elegance, comfort, and unmatched hospitality.',
         pricePerNight: 100,
         freeSpots: 10,
-        sale: true
+        sale: 50
     },
     {
         title: 'Hotel Belvedere',
@@ -15,7 +15,7 @@ export const mockDestinations: Destination[] = [
         description: 'Welcome to Hotel Belvedere, where luxury meets tranquility in the heart of Cluj-Napoca, Romania. Nestled amidst the picturesque landscapes and vibrant culture of Transylvania, our hotel offers an unparalleled experience for travelers seeking elegance, comfort, and unmatched hospitality.',
         pricePerNight: 200,
         freeSpots: 5,
-        sale: false
+        sale: 0
     },
     {
         title: 'Hotel Italia',
@@ -23,6 +23,6 @@ export const mockDestinations: Destination[] = [
         description: 'Welcome to Hotel Italia, where luxury meets tranquility in the heart of Cluj-Napoca, Romania. Nestled amidst the picturesque landscapes and vibrant culture of Transylvania, our hotel offers an unparalleled experience for travelers seeking elegance, comfort, and unmatched hospitality.',
         pricePerNight: 300,
         freeSpots: 3,
-        sale: true
+        sale: 30
     }
 ];

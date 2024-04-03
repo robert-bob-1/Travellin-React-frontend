@@ -1,11 +1,12 @@
 import { Grid, Typography, Button, Divider } from '@mui/material';
-import { keyframes, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import beachImage from '../assets/dalleBeach.png';
 import { styleConstants } from '../models/style-constants';
+import LogoutButton from '../components/LogoutButton';
+import { useUserState } from '../userContext';
 
 const ComponentGrid = styled(Grid)({
-
 });
 
 const WhiteBox = styled(Grid)({
@@ -15,11 +16,14 @@ const WhiteBox = styled(Grid)({
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden', // Ensure no overflow by default
-    maxHeight: '80vh', // Limit max height to 80% of viewport height
+    maxHeight: '75vh', // Limit max height to 80% of viewport height
 });
 
 const StyledGrid = styled(Grid)({
-    height: 'auto'
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden', // Ensure no overflow by default
+    maxHeight: '75vh', // Limit max height to 80% of viewport height
 });
 
 const ScrollableContent = styled('div')({
@@ -33,10 +37,10 @@ const StyledButton = styled(Button)({
 });
 
 export default function Home() {
+    const { isLoggedIn } = useUserState();
 
     return (
-        <ComponentGrid container spacing={2}
-        >
+        <ComponentGrid container spacing={2}>
             {/* Image */}
             <StyledGrid item xs={6}>
                 <img src={beachImage} alt="Sample" style={{ width: '100%' }} />
@@ -72,12 +76,17 @@ export default function Home() {
 
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', borderTop: '1.7px solid rgba(0, 0, 0, 0.12)', borderColor: styleConstants.dividerColor }}>
                     <Divider sx={{ margin: '0.5rem 0' }} />
-                    <StyledButton variant="outlined" color="primary">
-                        Sign Up
-                    </StyledButton>
-                    <StyledButton variant="contained" color="primary">
-                        Go to Login
-                    </StyledButton>
+                    {isLoggedIn ? <LogoutButton />
+                        :
+                        <div>
+                            <StyledButton variant="outlined" color="primary">
+                                Sign Up
+                            </StyledButton>
+                            <StyledButton variant="contained" color="primary">
+                                Go to Login
+                            </StyledButton>
+                        </div>
+                    }
                 </div>
             </WhiteBox>
         </ComponentGrid>

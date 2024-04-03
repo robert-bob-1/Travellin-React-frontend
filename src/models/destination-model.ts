@@ -4,5 +4,5 @@ export interface Destination {
     location: string;
     pricePerNight: number;
     freeSpots: number;
-    sale: boolean;
+    sale: number;
 }

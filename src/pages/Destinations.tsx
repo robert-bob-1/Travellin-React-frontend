@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, List, ListItem, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import styled from '@emotion/styled';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -6,7 +6,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import DestinationBox from '../components/DestinationBox';
-import { mockDestinations } from '../models/destination-mocks';
+import { getDestinations } from '../services/destination-service';
+import { Destination } from '../models/destination-model';
 
 const StyledListItem = styled(ListItem)({
     display: 'flex',
@@ -15,9 +16,20 @@ const StyledListItem = styled(ListItem)({
 
 const Destinations: React.FC = () => {
     const [showOnSaleOnly, setShowOnSaleOnly] = React.useState(false);
-    const destinations = mockDestinations;
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+    let [filteredDestinations, setFilteredDestinations] = useState<Destination[]>([]);
 
-    const filteredDestinations = showOnSaleOnly ? destinations.filter(destination => destination.sale) : destinations;
+    useEffect(() => {
+        getDestinations().then(destinationsResponse => {
+            setDestinations(destinationsResponse);
+            console.log('Destinations:', destinations);
+        });
+    }, []);
+
+    useEffect(() => {
+        setFilteredDestinations(showOnSaleOnly ? destinations.filter(destination => destination.sale) : destinations);
+        console.log('Filtered Destinations:', filteredDestinations);
+    }, [destinations, showOnSaleOnly]);
 
     const [startDate, setStartDate] = React.useState<Date | null>(null);
     const [endDate, setEndDate] = React.useState<Date | null>(null);

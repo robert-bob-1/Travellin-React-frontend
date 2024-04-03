@@ -3,6 +3,9 @@ import { AppBar, Toolbar, Button, styled, Box, Typography } from '@mui/material'
 
 import logo from '../assets/travel.png';
 import { teal } from '@mui/material/colors';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import LogoutButton from './LogoutButton';
+import { useUserState } from '../userContext';
 
 const StyledAppBar = styled(AppBar)({
     backgroundColor: 'white',
@@ -30,12 +33,14 @@ const StyledImage = styled('img')({
 });
 
 const Title = styled(Typography)({
-    color: teal[800],
+    color: teal[900],
     fontSize: '2.4rem',
     fontWeight: 'bold'
 });
 
 const Header: React.FC = () => {
+    const { isLoggedIn, userType } = useUserState();
+
     return (
         <StyledAppBar position='static'>
             <StyledToolbar>
@@ -44,13 +49,22 @@ const Header: React.FC = () => {
                     <Title>Travellin</Title>
                 </Box>
                 <div>
-                    <Button className='main-button' href="/">Home</Button>
-                    <Button href="/destinations">Destinations</Button>
-                    <Button href="/search">Search</Button>
+                    <Button component={Link} to="/">Home</Button>
+                    <Button component={Link} to="/destinations">Destinations</Button>
+                    <Button component={Link} to="/search">Search</Button>
+                    {userType === 'agent'
+                        ? <Button component={Link} to="/agent">Agent Page</Button>
+                        : null}
                 </div>
                 <div>
-                    <Button href="/about">About</Button>
-                    <Button href="/login">Login</Button>
+                    <Button component={Link} to="/about">About</Button>
+                    {isLoggedIn ? <LogoutButton />
+                        :
+                        <div>
+                            <Button component={Link} to="/login">Login</Button>
+                            <Button component={Link} to="/register">Register</Button>
+                        </div>
+                    }
                 </div>
             </StyledToolbar>
         </StyledAppBar>
