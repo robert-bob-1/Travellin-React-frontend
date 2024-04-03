@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 
 import { Destination } from '../models/destination-model';
 import { styleConstants } from '../models/style-constants';
+import { useUserState } from '../userContext';
 
 const DestinationBoxContainer = styled(Box)({
     backgroundColor: styleConstants.boxBackgroundColor,
@@ -46,9 +47,43 @@ const DestinationSpots = styled(Typography)({
     fontWeight: 'bold',
 });
 
-const DestinationBox: React.FC<{destination: Destination}> = ({ destination }) => {
+interface DestinationBoxProps {
+    destination: Destination;
+    onOpenEditDialog?: (destination: Destination) => void;
+}
+
+const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEditDialog }) => {
+    const { userType } = useUserState();
+
+    const handleEdit = (destination: Destination) => {
+        console.log('Edit destination:', destination);
+        if (onOpenEditDialog) {
+            onOpenEditDialog(destination);
+        }
+    };
+
+    const handleDelete = (destination: Destination) => {
+        console.log('Delete destination:', destination);
+    };
+
     return (
         <DestinationBoxContainer>
+            {userType === 'agent' &&
+                <div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEdit(destination)}
+                        sx={ { marginRight: '1rem', marginBottom: '1rem' } }>
+                            Edit</Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleDelete(destination)}
+                        sx={ { marginBottom: '1rem' }}>
+                            Delete</Button>
+                </div>
+            }
             <Grid container>
                 <Grid item xs={10}>
                     <Grid container direction="column">
@@ -63,7 +98,7 @@ const DestinationBox: React.FC<{destination: Destination}> = ({ destination }) =
                 </Grid>
                 <Grid item xs='auto' style={{ marginLeft: 'auto' }}>
                     <DestinationInfoContainer>
-                        <DestinationPrice variant="body1" style={{ color: destination.sale ? 'red' : 'inherit' }}>
+                        <DestinationPrice variant="body1" style={{ color: destination.sale > 0 ? 'red' : 'inherit' }}>
                             Price per night: ${destination.pricePerNight}
                         </DestinationPrice>
                         <DestinationSpots variant="body1">

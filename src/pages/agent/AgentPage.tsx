@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, List, ListItem, Grid, Checkbox, FormControlLabel, Button } from '@mui/material';
 import styled from '@emotion/styled';
 
 import DestinationBox from '../../components/DestinationBox';
-import { mockDestinations } from '../../models/destination-mocks';
 import DestinationDialog from '../../components/DestinationDialog';
+import { Destination } from '../../models/destination-model';
+import { getDestinations } from '../../services/destination-service';
 
 const StyledListItem = styled(ListItem)({
     display: 'flex',
@@ -14,9 +15,24 @@ const StyledListItem = styled(ListItem)({
 const AgentPage: React.FC = () => {
     const [showOnSaleOnly, setShowOnSaleOnly] = React.useState(false);
     const [openDialog, setOpenDialog] = React.useState(false);
-    const destinations = mockDestinations;
+    const [destinations, setDestinations] = React.useState<Destination[]>([]);
+    const [filteredDestinations, setFilteredDestinations] = React.useState<Destination[]>([]);
+    const [destination, setDestinationToEdit] = React.useState<Destination | undefined>();
 
-    const filteredDestinations = showOnSaleOnly ? destinations.filter(destination => destination.sale) : destinations;
+    useEffect(() => {
+        getDestinations().then(destinationsResponse => {
+            setDestinations(destinationsResponse);
+            console.log('Destinations:', destinations);
+        });
+    }, [openDialog]);
+
+    useEffect(() => {
+        const tempFilteredDestinations = showOnSaleOnly ?
+            destinations.filter(destination => destination.sale > 0)
+            : destinations;
+        setFilteredDestinations(tempFilteredDestinations);
+        console.log('Filtered Destinations:', filteredDestinations);
+    }, [destinations, showOnSaleOnly]);
 
     function onAddDestination() {
         setOpenDialog(true);
@@ -24,6 +40,12 @@ const AgentPage: React.FC = () => {
 
     function onCloseDialog() {
         setOpenDialog(false);
+        setDestinationToEdit(undefined);
+    }
+
+    const onOpenEditDialog = (destination: Destination) => {
+        setDestinationToEdit(destination);
+        setOpenDialog(true);
     }
 
     return (
@@ -52,12 +74,17 @@ const AgentPage: React.FC = () => {
             <List>
                 {filteredDestinations.map((destination, index) => (
                     <StyledListItem key={index}>
-                        <DestinationBox destination={destination} />
+                        <DestinationBox
+                            destination={destination}
+                            onOpenEditDialog={onOpenEditDialog} />
                     </StyledListItem>
                 ))}
             </List>
 
-            <DestinationDialog open={openDialog} onClose={onCloseDialog} />
+            <DestinationDialog
+                open={openDialog}
+                onClose={onCloseDialog}
+                destination={destination} />
         </Grid>
     );
 };

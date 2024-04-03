@@ -10,6 +10,7 @@ export function getDestinations(): Promise<Destination[]> {
             console.log(response);
             let destinations: Destination[] = response.data.map((destination: any) => {
                 return {
+                    id: destination.id,
                     title: destination.title,
                     description: destination.description,
                     location: destination.location,
@@ -36,7 +37,7 @@ export function saveDestination(destination: Destination): Promise<Destination> 
 }
 
 export function editDestination(destination: Destination): Promise<Destination> {
-    return axios.put(`${BASE_URL}/${destination.title}`, destination)
+    return axios.put(`${BASE_URL}update/${destination.id}/`, destination)
         .then(response => {
             return response.data;
         })

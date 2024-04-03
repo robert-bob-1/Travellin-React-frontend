@@ -10,6 +10,7 @@ interface DestinationDialogProps {
 }
 
 const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, destination }) => {
+    const [id, setId] = React.useState(0); // [1
     const [title, setTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [location, setLocation] = React.useState('');
@@ -19,6 +20,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
 
     React.useEffect(() => {
         if (destination) {
+            setId(destination.id);
             setTitle(destination.title);
             setDescription(destination.description);
             setLocation(destination.location);
@@ -31,6 +33,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
     const handleSave = () => {
         // Save the form data here
         const updatedDestination: Destination = {
+            id,
             title,
             description,
             location,
