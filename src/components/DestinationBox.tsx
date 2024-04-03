@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import { Destination } from '../models/destination-model';
 import { styleConstants } from '../models/style-constants';
 import { useUserState } from '../userContext';
+import { deleteDestination } from '../services/destination-service';
 
 const DestinationBoxContainer = styled(Box)({
     backgroundColor: styleConstants.boxBackgroundColor,
@@ -50,9 +51,10 @@ const DestinationSpots = styled(Typography)({
 interface DestinationBoxProps {
     destination: Destination;
     onOpenEditDialog?: (destination: Destination) => void;
+    onDeleteDestination?: () => void;
 }
 
-const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEditDialog }) => {
+const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEditDialog, onDeleteDestination }) => {
     const { userType } = useUserState();
 
     const handleEdit = (destination: Destination) => {
@@ -64,6 +66,10 @@ const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEdit
 
     const handleDelete = (destination: Destination) => {
         console.log('Delete destination:', destination);
+        deleteDestination(destination.id);
+        if (onDeleteDestination) {
+            onDeleteDestination();
+        }
     };
 
     return (

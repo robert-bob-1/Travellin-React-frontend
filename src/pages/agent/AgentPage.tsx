@@ -18,13 +18,14 @@ const AgentPage: React.FC = () => {
     const [destinations, setDestinations] = React.useState<Destination[]>([]);
     const [filteredDestinations, setFilteredDestinations] = React.useState<Destination[]>([]);
     const [destination, setDestinationToEdit] = React.useState<Destination | undefined>();
+    const [refresh, setRefresh] = React.useState(false);
 
     useEffect(() => {
         getDestinations().then(destinationsResponse => {
             setDestinations(destinationsResponse);
             console.log('Destinations:', destinations);
         });
-    }, [openDialog]);
+    }, [openDialog, refresh]);
 
     useEffect(() => {
         const tempFilteredDestinations = showOnSaleOnly ?
@@ -46,6 +47,10 @@ const AgentPage: React.FC = () => {
     const onOpenEditDialog = (destination: Destination) => {
         setDestinationToEdit(destination);
         setOpenDialog(true);
+    }
+
+    const onDeleteDestination = () => {
+        setRefresh(!refresh);
     }
 
     return (
@@ -76,7 +81,8 @@ const AgentPage: React.FC = () => {
                     <StyledListItem key={index}>
                         <DestinationBox
                             destination={destination}
-                            onOpenEditDialog={onOpenEditDialog} />
+                            onOpenEditDialog={onOpenEditDialog}
+                            onDeleteDestination={onDeleteDestination} />
                     </StyledListItem>
                 ))}
             </List>

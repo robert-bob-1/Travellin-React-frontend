@@ -46,3 +46,13 @@ export function editDestination(destination: Destination): Promise<Destination> 
         });
 }
 
+export function deleteDestination(destinationId: number): Promise<void> {
+    return axios.delete(`${BASE_URL}delete/${destinationId}/`)
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            return undefined;
+        });
+}
+
