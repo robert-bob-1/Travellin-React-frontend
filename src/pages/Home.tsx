@@ -5,6 +5,7 @@ import beachImage from '../assets/dalleBeach.png';
 import { styleConstants } from '../models/style-constants';
 import LogoutButton from '../components/LogoutButton';
 import { useUserState } from '../userContext';
+import { Link } from 'react-router-dom';
 
 const ComponentGrid = styled(Grid)({
 });
@@ -30,10 +31,6 @@ const ScrollableContent = styled('div')({
     flex: '1', // Grow to fill available space, enables scrolling
     overflowY: 'auto', // Enable vertical scrolling
     height: 'auto'
-});
-
-const StyledButton = styled(Button)({
-    margin: '1rem'
 });
 
 export default function Home() {
@@ -79,12 +76,22 @@ export default function Home() {
                     {isLoggedIn ? <LogoutButton />
                         :
                         <div>
-                            <StyledButton variant="outlined" color="primary">
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                component={Link}
+                                to="/register"
+                                sx={ { margin: '1rem' } }>
                                 Sign Up
-                            </StyledButton>
-                            <StyledButton variant="contained" color="primary">
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                component={Link}
+                                to="/login"
+                                sx={ { margin: '1rem' } }>
                                 Go to Login
-                            </StyledButton>
+                            </Button>
                         </div>
                     }
                 </div>

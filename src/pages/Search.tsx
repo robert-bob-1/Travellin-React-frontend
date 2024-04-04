@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, List, ListItem, Grid, styled, TextField } from '@mui/material';
 
 import { Destination } from '../models/destination-model';
 import { mockDestinations } from '../models/destination-mocks';
 import DestinationBox from '../components/DestinationBox';
+import { getDestinations } from '../services/destination-service';
 
 const StyledListItem = styled(ListItem)({
     display: 'flex',
@@ -11,9 +12,15 @@ const StyledListItem = styled(ListItem)({
 });
 
 const Search: React.FC = () => {
-    const destinations: Destination[] = mockDestinations;
-
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+
+    useEffect(() => {
+        getDestinations().then(destinationsResponse => {
+            setDestinations(destinationsResponse);
+            console.log('Destinations:', destinations);
+        });
+    }, []);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);

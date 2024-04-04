@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Button, styled, Box, Typography } from '@mui/material'
 
 import logo from '../assets/travel.png';
 import { teal } from '@mui/material/colors';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { useUserState } from '../userContext';
 
