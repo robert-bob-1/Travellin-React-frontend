@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { Destination, Reservation } from '../models/destination-model';
 
-const BASE_URL = 'http://127.0.0.1:8000/destinations/';
+const BASE_URL = 'https://127.0.0.1:8000/destinations/';
 
 export function getDestinations(): Promise<Destination[]> {
     return axios.get(BASE_URL)
