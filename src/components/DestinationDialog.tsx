@@ -42,10 +42,10 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
             sale,
         };
         if (destination) {
-            console.log('Editing destination', updatedDestination)
+            // console.log('Editing destination', updatedDestination)
             editDestination(updatedDestination);
         } else {
-            console.log('Saving destination', updatedDestination)
+            // console.log('Saving destination', updatedDestination)
             saveDestination(updatedDestination);
         }
         onClose();

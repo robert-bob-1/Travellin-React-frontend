@@ -26,7 +26,7 @@ const AgentPage: React.FC = () => {
     useEffect(() => {
         getDestinations().then(destinationsResponse => {
             setDestinations(destinationsResponse);
-            console.log('Destinations:', destinations);
+            // console.log('Destinations:', destinations);
         });
     }, [openDialog, refresh]);
 
@@ -35,7 +35,7 @@ const AgentPage: React.FC = () => {
             destinations.filter(destination => destination.sale > 0)
             : destinations;
         setFilteredDestinations(tempFilteredDestinations);
-        console.log('Filtered Destinations:', filteredDestinations);
+        // console.log('Filtered Destinations:', filteredDestinations);
     }, [destinations, showOnSaleOnly]);
 
     function onAddDestination() {
@@ -51,7 +51,7 @@ const AgentPage: React.FC = () => {
     }
 
     const onOpenReservationsDialog = (destination: Destination) => {
-        console.log('Reservations for:', destination.title);
+        // console.log('Reservations for:', destination.title);
         setDestination(destination);
         setOpenReservationsDialog(true);
     }
