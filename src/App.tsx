@@ -9,7 +9,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { pink, teal } from '@mui/material/colors';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import AgentPage from './pages/agent/AgentPage';
+import AgentPage from './pages/AgentPage';
 
 declare module '@mui/material/styles' {
   interface Palette {

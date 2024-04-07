@@ -5,7 +5,7 @@ import { styled } from '@mui/system';
 import { Destination } from '../models/destination-model';
 import { styleConstants } from '../models/style-constants';
 import { useUserState } from '../userContext';
-import { deleteDestination } from '../services/destination-service';
+import { createReservation, deleteDestination } from '../services/destination-service';
 
 const DestinationBoxContainer = styled(Box)({
     backgroundColor: styleConstants.boxBackgroundColor,
@@ -50,11 +50,14 @@ const DestinationSpots = styled(Typography)({
 
 interface DestinationBoxProps {
     destination: Destination;
+    startDate?: Date;
+    endDate?: Date;
+    onOpenReservationsDialog?: (destination: Destination) => void;
     onOpenEditDialog?: (destination: Destination) => void;
     onDeleteDestination?: () => void;
 }
 
-const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEditDialog, onDeleteDestination }) => {
+const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, startDate, endDate, onOpenReservationsDialog, onOpenEditDialog, onDeleteDestination }) => {
     const { userType } = useUserState();
 
     const handleEdit = (destination: Destination) => {
@@ -72,26 +75,25 @@ const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEdit
         }
     };
 
+    const handleSeeReservations = (destination: Destination) => {
+        if (onOpenReservationsDialog) {
+            onOpenReservationsDialog(destination);
+        }
+    };
+
+    const onReserveClick = () => {
+        console.log('Reserve:', destination, startDate?.toISOString(), endDate?.toISOString());
+        if (startDate && endDate)
+            createReservation(destination.id, startDate, endDate);
+        else
+            console.error('Invalid dates');
+    };
+
     return (
         <DestinationBoxContainer>
-            {userType === 'agent' &&
-                <div>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleEdit(destination)}
-                        sx={ { marginRight: '1rem', marginBottom: '1rem' } }>
-                            Edit</Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleDelete(destination)}
-                        sx={ { marginBottom: '1rem' }}>
-                            Delete</Button>
-                </div>
-            }
-            <Grid container>
-                <Grid item xs={10}>
+            <Grid container
+                direction="row">
+                <Grid item xs={8}>
                     <Grid container direction="column">
                         <Grid item>
                             <DestinationTitle variant="h5">{destination.title}</DestinationTitle>
@@ -108,9 +110,48 @@ const DestinationBox: React.FC<DestinationBoxProps> = ({ destination, onOpenEdit
                             Price per night: ${destination.pricePerNight}
                         </DestinationPrice>
                         <DestinationSpots variant="body1">
-                            Free spots: {destination.freeSpots}
+                            Total spots: {destination.totalSpots}
                         </DestinationSpots>
                     </DestinationInfoContainer>
+                    {userType === 'agent' ?
+                        <div>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleEdit(destination)}
+                                sx={ {margin: '1rem' } }>
+                                    Edit</Button>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => handleDelete(destination)}
+                                sx={ { margin: '1rem' }}>
+                                    Delete</Button>
+                        </div>
+                        :
+                        <div style={{ display: "flex", justifyContent: "flex-end"}}>
+                            {startDate && endDate &&
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={onReserveClick}
+                                    sx={ { margin: '1rem', } }>
+                                        Reserve</Button>
+                            }
+                        </div>
+                    }
+
+                    {userType === 'agent' ?
+                        <div>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => handleSeeReservations(destination)}
+                                sx={ {margin: '1rem' } }>
+                                    See Reservations</Button>
+                        </div>
+                        : <div></div>
+                    }
                 </Grid>
             </Grid>
         </DestinationBoxContainer>

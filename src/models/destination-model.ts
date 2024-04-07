@@ -4,6 +4,14 @@ export interface Destination {
     description: string;
     location: string;
     pricePerNight: number;
-    freeSpots: number;
+    totalSpots: number;
     sale: number;
+}
+
+export interface Reservation {
+    id: number;
+    destination: Destination;
+    startDate: Date;
+    endDate: Date;
+    totalCost: number;
 }

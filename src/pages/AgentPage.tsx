@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { Typography, List, ListItem, Grid, Checkbox, FormControlLabel, Button } from '@mui/material';
 import styled from '@emotion/styled';
 
-import DestinationBox from '../../components/DestinationBox';
-import DestinationDialog from '../../components/DestinationDialog';
-import { Destination } from '../../models/destination-model';
-import { getDestinations } from '../../services/destination-service';
+import DestinationBox from '../components/DestinationBox';
+import DestinationDialog from '../components/DestinationDialog';
+import { Destination } from '../models/destination-model';
+import { getDestinations } from '../services/destination-service';
+import ReservationsDialog from '../components/ReservationDialog';
+import { set } from 'date-fns';
 
 const StyledListItem = styled(ListItem)({
     display: 'flex',
@@ -15,9 +17,10 @@ const StyledListItem = styled(ListItem)({
 const AgentPage: React.FC = () => {
     const [showOnSaleOnly, setShowOnSaleOnly] = React.useState(false);
     const [openDialog, setOpenDialog] = React.useState(false);
+    const [openReservationsDialog, setOpenReservationsDialog] = React.useState(false);
     const [destinations, setDestinations] = React.useState<Destination[]>([]);
     const [filteredDestinations, setFilteredDestinations] = React.useState<Destination[]>([]);
-    const [destination, setDestinationToEdit] = React.useState<Destination | undefined>();
+    const [destination, setDestination] = React.useState<Destination | undefined>();
     const [refresh, setRefresh] = React.useState(false);
 
     useEffect(() => {
@@ -39,13 +42,22 @@ const AgentPage: React.FC = () => {
         setOpenDialog(true);
     }
 
+    function onCloseReservationsDialog() {
+        setOpenReservationsDialog(false);
+    }
     function onCloseDialog() {
         setOpenDialog(false);
-        setDestinationToEdit(undefined);
+        setDestination(undefined);
+    }
+
+    const onOpenReservationsDialog = (destination: Destination) => {
+        console.log('Reservations for:', destination.title);
+        setDestination(destination);
+        setOpenReservationsDialog(true);
     }
 
     const onOpenEditDialog = (destination: Destination) => {
-        setDestinationToEdit(destination);
+        setDestination(destination);
         setOpenDialog(true);
     }
 
@@ -81,6 +93,7 @@ const AgentPage: React.FC = () => {
                     <StyledListItem key={index}>
                         <DestinationBox
                             destination={destination}
+                            onOpenReservationsDialog={onOpenReservationsDialog}
                             onOpenEditDialog={onOpenEditDialog}
                             onDeleteDestination={onDeleteDestination} />
                     </StyledListItem>
@@ -90,6 +103,10 @@ const AgentPage: React.FC = () => {
             <DestinationDialog
                 open={openDialog}
                 onClose={onCloseDialog}
+                destination={destination} />
+            <ReservationsDialog
+                open={openReservationsDialog}
+                onClose={onCloseReservationsDialog}
                 destination={destination} />
         </Grid>
     );

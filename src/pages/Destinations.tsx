@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import DestinationBox from '../components/DestinationBox';
-import { getDestinations } from '../services/destination-service';
+import { getAvailableDestinations, getDestinations } from '../services/destination-service';
 import { Destination } from '../models/destination-model';
 
 const StyledListItem = styled(ListItem)({
@@ -19,6 +19,9 @@ const Destinations: React.FC = () => {
     const [destinations, setDestinations] = useState<Destination[]>([]);
     let [filteredDestinations, setFilteredDestinations] = useState<Destination[]>([]);
 
+    const [startDate, setStartDate] = React.useState<Date | undefined>(undefined);
+    const [endDate, setEndDate] = React.useState<Date | undefined>(undefined);
+
     useEffect(() => {
         getDestinations().then(destinationsResponse => {
             setDestinations(destinationsResponse);
@@ -28,11 +31,19 @@ const Destinations: React.FC = () => {
 
     useEffect(() => {
         setFilteredDestinations(showOnSaleOnly ? destinations.filter(destination => destination.sale) : destinations);
-        console.log('Filtered Destinations:', filteredDestinations);
+        // console.log('Filtered Destinations:', filteredDestinations);
     }, [destinations, showOnSaleOnly]);
 
-    const [startDate, setStartDate] = React.useState<Date | null>(null);
-    const [endDate, setEndDate] = React.useState<Date | null>(null);
+    useEffect(() => {
+        if (startDate && endDate) {
+            // console.log('Start Date:', startDate);
+            // console.log('End Date:', endDate);
+
+            getAvailableDestinations(startDate, endDate).then(availableDestinations => {
+                setDestinations(availableDestinations);
+            });
+        }
+    }, [startDate, endDate]);
 
     return (
         <Grid container direction="column">
@@ -44,14 +55,16 @@ const Destinations: React.FC = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="Start Date"
-                            value={startDate} onChange={(date: React.SetStateAction<Date | null>) => setStartDate(date)} />
-                    </LocalizationProvider>
+                            value={startDate}
+                            onChange={(date: Date | null) => date !== null && setStartDate(date)} />
+                            </LocalizationProvider>
                 </Grid>
                 <Grid item>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
                             label="End Date"
-                            value={endDate} onChange={(date: React.SetStateAction<Date | null>) => setEndDate(date)} />
+                            value={endDate}
+                            onChange={(date: Date | null) => date !== null && setEndDate(date)} />
                     </LocalizationProvider>
                 </Grid>
                 <Grid item> {/* Added Grid item for the checkbox */}
@@ -65,7 +78,8 @@ const Destinations: React.FC = () => {
             <List>
                 {filteredDestinations.map((destination, index) => (
                     <StyledListItem key={index}>
-                        <DestinationBox destination={destination} />
+                        <DestinationBox destination={destination}
+                            startDate={startDate} endDate={endDate}  />
                     </StyledListItem>
                 ))}
             </List>

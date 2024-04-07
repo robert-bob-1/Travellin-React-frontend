@@ -15,7 +15,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
     const [description, setDescription] = React.useState('');
     const [location, setLocation] = React.useState('');
     const [pricePerNight, setPricePerNight] = React.useState(0);
-    const [freeSpots, setAvailableSpots] = React.useState(0);
+    const [totalSpots, setAvailableSpots] = React.useState(0);
     const [sale, setOfferPercentage] = React.useState(0);
 
     React.useEffect(() => {
@@ -25,7 +25,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
             setDescription(destination.description);
             setLocation(destination.location);
             setPricePerNight(destination.pricePerNight);
-            setAvailableSpots(destination.freeSpots);
+            setAvailableSpots(destination.totalSpots);
             setOfferPercentage(destination.sale);
         }
     }, [destination]);
@@ -38,7 +38,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
             description,
             location,
             pricePerNight,
-            freeSpots,
+            totalSpots,
             sale,
         };
         if (destination) {
@@ -91,7 +91,7 @@ const DestinationDialog: React.FC<DestinationDialogProps> = ({ open, onClose, de
                 <TextField
                     label="Available Spots"
                     type="number"
-                    value={freeSpots}
+                    value={totalSpots}
                     onChange={(e) => setAvailableSpots(Number(e.target.value))}
                     fullWidth
                     margin="normal"
